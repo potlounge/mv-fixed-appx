@@ -18,8 +18,8 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 $ProgressPreference = 'SilentlyContinue'
 $InformationPreference = 'Continue'
 
-$116Url = 'https://github.com/Pot-Lounge/mv-fixed-appx/releases/download/1.0.1/1.16.100.4.appx'
-$118Url = 'https://github.com/Pot-Lounge/mv-fixed-appx/releases/download/1.0.1/1.18.12.1.appx'
+$116Url = 'https://github.com/Pot-Lounge/mv-fixed-appx/releases/download/1.2.0/1.16.100.4.appx'
+$118Url = 'https://github.com/Pot-Lounge/mv-fixed-appx/releases/download/1.2.0/1.18.12.1.appx'
 
 [Console]::ForegroundColor = 'gray'
 Write-Information "mv-fixed-appx: really simple script to either install or switch to xbox authentication fixed versions of Minecraft (1.16.100.4 and 1.18.12.1)."
