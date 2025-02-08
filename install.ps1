@@ -18,12 +18,13 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 $ProgressPreference = 'SilentlyContinue'
 $InformationPreference = 'Continue'
 
-$116Url = 'https://github.com/Pot-Lounge/mv-fixed-appx/releases/download/1.2.0/1.16.100.4.appx'
-$118Url = 'https://github.com/Pot-Lounge/mv-fixed-appx/releases/download/1.2.0/1.18.12.1.appx'
+$112Url = 'https://github.com/potlounge/mv-fixed-appx/releases/download/1.3.0/1.12.101.0.appx'
+$116Url = 'https://github.com/potlounge/mv-fixed-appx/releases/download/1.3.0/1.16.100.4.appx'
+$118Url = 'https://github.com/potlounge/mv-fixed-appx/releases/download/1.3.0/1.18.12.1.appx'
 
 [Console]::ForegroundColor = 'gray'
-Write-Information "mv-fixed-appx: really simple script to either install or switch to xbox authentication fixed versions of Minecraft (1.16.100.4 and 1.18.12.1)."
-Write-Information "Brought to you by mineage.us discord.gg/mineagenetwork"
+Write-Information "mv-fixed-appx: really simple script to either install or switch to xbox authentication fixed versions of Minecraft (1.12.100.0, 1.16.100.4 and 1.18.12.1)."
+Write-Information "Brought to you by mineage.us & potlounge.club"
 Start-Sleep -Seconds 2
 Write-Warning "This script will replace your current Minecraft installation with a patched package (no renderdragon, fixed xbox authentication)."
 [Console]::ForegroundColor = 'yellow'
@@ -52,7 +53,7 @@ $pfxPath = 'null'
 $appxPath = 'null'
 
 [Console]::ForegroundColor = 'yellow'
-$choice = Read-Host -Prompt 'Enter 1 to install 1.16.100.4, enter 2 to install 1.18.12.1'
+$choice = Read-Host -Prompt 'Enter 1 to install 1.12.100.0, enter 2 to install 1.16.100.4, enter 3 to install 1.18.12.1'
 if ( -not($choice) ) {
     Write-Error -Message "You didn't enter a choice."
     Start-Sleep -Seconds 5
@@ -76,24 +77,33 @@ $thumbprint = 'null'
 # Install certs
 
 if( $choice -eq '1' ) {
+    $cerPath = ($mvFixedAppxPath + '\1.12.101.0.cer')
+    $thumbprint = '347C0C51E1E9E4C950EC2C3F6876EAFD9F2B65C7'
+    $pfxPath = ($mvFixedAppxPath + '\1.12.101.0.pfx')
+    $appxPath = ($mvFixedAppxPath + '\1.12.101.0.appx')
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/potlounge/mv-fixed-appx/master/1.12.101.0/1.12.101.0.cer" -OutFile $cerPath
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/potlounge/mv-fixed-appx/master/1.12.101.0/1.12.101.0.pfx" -OutFile $pfxPath
+    Invoke-WebRequest -Uri $112Url -OutFile $appxPath
+    Write-Information "Done."
+} elseif( $choice -eq '2' ) {
     $cerPath = ($mvFixedAppxPath + '\1.16.100.4.cer')
     $thumbprint = '95ea29c5a53b5c80ca7f42c5d30bea1c26382fac'
     $pfxPath = ($mvFixedAppxPath + '\1.16.100.4.pfx')
     $appxPath = ($mvFixedAppxPath + '\1.16.100.4.appx')
-    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Pot-Lounge/mv-fixed-appx/master/1.16.100.4/1.16.100.4.cer" -OutFile $cerPath
-    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Pot-Lounge/mv-fixed-appx/master/1.16.100.4/1.16.100.4.pfx" -OutFile $pfxPath
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/potlounge/mv-fixed-appx/master/1.16.100.4/1.16.100.4.cer" -OutFile $cerPath
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/potlounge/mv-fixed-appx/master/1.16.100.4/1.16.100.4.pfx" -OutFile $pfxPath
     Invoke-WebRequest -Uri $116Url -OutFile $appxPath
     Write-Information "Done."
-} elseif( $choice -eq '2' ) {
+} elseif( $choice -eq '3' ) {
     $cerPath = ($mvFixedAppxPath + '\1.18.12.1.cer')
     $thumbprint = '3dc5cf378d170d1c5083297c522c797ae1dd2e9d'
     $pfxPath = ($mvFixedAppxPath + '\1.18.12.1.pfx')
     $appxPath = ($mvFixedAppxPath + '\1.18.12.1.appx')
-    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Pot-Lounge/mv-fixed-appx/master/1.18.12.1/1.18.12.1.cer" -OutFile $cerPath
-    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Pot-Lounge/mv-fixed-appx/master/1.18.12.1/1.18.12.1.pfx" -OutFile $pfxPath
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/potlounge/mv-fixed-appx/master/1.18.12.1/1.18.12.1.cer" -OutFile $cerPath
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/potlounge/mv-fixed-appx/master/1.18.12.1/1.18.12.1.pfx" -OutFile $pfxPath
     Invoke-WebRequest -Uri $118Url -OutFile $appxPath
     Write-Information "Done."
-} else {
+}else {
     [Console]::ForegroundColor = 'red'
     Write-Error "Value isn't valid. Try running the script again."
     Start-Sleep -Seconds 3
@@ -228,10 +238,4 @@ Remove-Item -Path $mvFixedAppxPath -Recurse -Force
 
 [Console]::ForegroundColor = 'green'
 Write-Information "Done."
-[Console]::ForegroundColor = 'blue'
-Write-Information "Join our Discord server!"
-Start-Process "https://discord.gg/mineagenetwork"
-Write-Warning "Closing Powershell script in 5 seconds..."
-Start-Sleep -Seconds 5
-[Console]::ResetColor()
 pause
